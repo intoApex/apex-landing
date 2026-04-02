@@ -1,287 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APEX — Deploy an AI Operations System in 30 Minutes</title>
-<meta name="description" content="Pre-configured OpenClaw automation with 7 modules. Social media, P&L tracking, support triage, outbound, content, Reddit monitoring, competitor intelligence. Cost-optimized from $7.60/day to $0.24/day.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0b;--surface:#111113;--surface2:#1a1a1e;--border:#2a2a30;--text:#e8e6e3;--muted:#8a8880;--accent:#22c55e;--accent2:#16a34a;--warn:#eab308;--dim:#3a3a40;--red:#ef4444;--mono:'JetBrains Mono',monospace;--sans:'DM Sans',system-ui,sans-serif}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-.container{max-width:900px;margin:0 auto;padding:0 24px}
-.hero{padding:80px 0 60px;text-align:center;border-bottom:1px solid var(--border)}
-.hero .tag{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:4px 12px;margin-bottom:24px;letter-spacing:0.5px}
-.hero h1{font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.15;margin-bottom:16px;letter-spacing:-1px}
-.hero h1 span{color:var(--accent)}
-.hero .sub{font-size:18px;color:var(--muted);max-width:620px;margin:0 auto 32px;line-height:1.6}
-.hero .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;transition:all 0.2s;cursor:pointer;border:none;font-family:var(--sans)}
-.btn-primary{background:var(--accent);color:#000}.btn-primary:hover{background:var(--accent2);text-decoration:none}
-.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--muted);text-decoration:none}
-.live-bar{padding:20px 0;border-bottom:1px solid var(--border);background:var(--surface)}
-.live-bar .inner{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;font-family:var(--mono);font-size:13px}
-.live-bar .item{display:flex;align-items:center;gap:8px}
-.live-bar .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.live-bar .val{color:var(--accent)}.live-bar .lbl{color:var(--muted)}
-section{padding:80px 0;border-bottom:1px solid var(--border)}
-section h2{font-size:28px;font-weight:700;margin-bottom:12px;letter-spacing:-0.5px}
-section .sub{color:var(--muted);margin-bottom:32px;font-size:16px}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px}
-.stat .num{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--warn)}
-.stat .label{font-size:13px;color:var(--muted);margin-top:4px}
-.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:600px){.proof-grid,.cost-compare{grid-template-columns:1fr}}
-.proof-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px}
-.proof-card .metric{font-family:var(--mono);font-size:32px;font-weight:700;color:var(--accent)}
-.proof-card .metric.bad{color:var(--red)}
-.proof-card .lbl{font-size:14px;color:var(--muted);margin-top:4px}
-.proof-card .context{font-size:13px;color:var(--dim);margin-top:8px;font-style:italic}
-.timeline{margin-top:32px;border-left:2px solid var(--border);padding-left:24px}
-.timeline .entry{margin-bottom:20px;position:relative}
-.timeline .entry::before{content:'';position:absolute;left:-29px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
-.timeline .day{font-family:var(--mono);font-size:12px;color:var(--accent)}
-.timeline .what{font-size:14px;color:var(--muted);margin-top:2px}
-.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.mod{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;transition:border-color 0.2s}
-.mod:hover{border-color:var(--accent)}
-.mod .icon{font-size:24px;margin-bottom:12px}
-.mod h3{font-size:16px;font-weight:600;margin-bottom:6px}
-.mod p{font-size:14px;color:var(--muted);line-height:1.5}
-.mod .cost{font-family:var(--mono);font-size:12px;color:var(--accent);margin-top:10px}
-.cost-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px}
-.cost-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px}
-.cost-card.bad{border-color:#7f1d1d}.cost-card.good{border-color:var(--accent)}
-.cost-card .title{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.cost-card .price{font-family:var(--mono);font-size:36px;font-weight:700}
-.cost-card.bad .price{color:#ef4444}.cost-card.good .price{color:var(--accent)}
-.cost-card .detail{font-size:13px;color:var(--muted);margin-top:8px}
-.layers{display:grid;gap:12px;margin-top:32px}
-.layer{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.layer .name{font-weight:500;font-size:15px}
-.layer .desc{font-size:13px;color:var(--muted)}
-.layer .save{font-family:var(--mono);font-size:14px;color:var(--accent);white-space:nowrap}
-.file-tree{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;font-family:var(--mono);font-size:13px;line-height:2.2;color:var(--muted)}
-.file-tree .dir{color:var(--accent)}.file-tree .desc{color:var(--dim);font-family:var(--sans);font-size:12px}
-.terminal{background:#0d1117;border:1px solid #30363d;border-radius:10px;overflow:hidden}
-.terminal-bar{background:#161b22;padding:10px 16px;display:flex;gap:6px;align-items:center}
-.terminal-bar .dot{width:10px;height:10px;border-radius:50%}
-.terminal-bar .dot:nth-child(1){background:#ff5f57}.terminal-bar .dot:nth-child(2){background:#febc2e}.terminal-bar .dot:nth-child(3){background:#28c840}
-.terminal-bar .title{font-family:var(--mono);font-size:12px;color:#8b949e;margin-left:12px}
-.terminal pre{padding:20px;font-family:var(--mono);font-size:13px;line-height:1.8;overflow-x:auto;color:#c9d1d9}
-.terminal .comment{color:#6e7681}.terminal .cmd{color:#79c0ff}.terminal .out{color:#7ee787}
-.pricing{text-align:left}
-.pricing h2,.pricing .sub{text-align:center}
-.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.price-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:28px;text-align:center;transition:border-color 0.2s}
-.price-card.featured{border-color:var(--accent);position:relative}
-.price-card.featured::before{content:"Most popular";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:11px;font-weight:600;padding:3px 12px;border-radius:4px}
-.price-card .tier{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.price-card .amount{font-family:var(--mono);font-size:40px;font-weight:700;margin:12px 0}
-.price-card .amount small{font-size:16px;font-weight:400;color:var(--muted)}
-.price-card ul{list-style:none;text-align:left;margin:20px 0;font-size:14px}
-.price-card li{padding:6px 0;color:var(--muted)}
-.price-card li::before{content:"✓ ";color:var(--accent)}
-.price-card .btn{width:100%;margin-top:12px}
-.faq-item{border-bottom:1px solid var(--border);padding:20px 0}
-.faq-item:last-child{border-bottom:none}
-.faq-q{font-weight:600;font-size:16px;margin-bottom:8px}
-.faq-a{font-size:14px;color:var(--muted);line-height:1.7}
-.footer{padding:40px 0;text-align:center;font-size:13px;color:var(--dim);border:none}
-.footer a{color:var(--muted)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX — Autonomous AI Operations That Run Themselves</title>
+    <meta name="description" content="Self-improving autonomous AI system on OpenClaw. 14 agents, under $2/day, gets smarter every week. Deploy yourself or let us run it for you.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #0a0a0a;
+            --surface2: #0f0f0f;
+            --border: #1a1a1a;
+            --border2: #252525;
+            --text: #e8e8e8;
+            --text-dim: #777;
+            --text-muted: #444;
+            --accent: #00ff88;
+            --accent-dim: #00ff8822;
+            --accent-glow: #00ff8815;
+            --red: #ff4444;
+            --blue: #4488ff;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Outfit', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; }
+        body::after { content: ''; position: fixed; inset: 0; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; }
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+        
+        /* NAV */
+        nav { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--mono); font-weight: 700; font-size: 18px; color: var(--accent); }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+
+        /* HERO */
+        .hero { padding: 80px 0 60px; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%); pointer-events: none; }
+        .badge { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); border: 1px solid #00ff8833; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; background: #00ff8808; }
+        h1 { font-size: clamp(34px, 5.5vw, 52px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+        h1 .accent { color: var(--accent); }
+        .subtitle { font-size: 17px; color: var(--text-dim); max-width: 500px; margin: 0 auto 40px; font-weight: 300; line-height: 1.7; }
+
+        /* STATS */
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 64px; }
+        .stat { background: var(--surface); padding: 20px 12px; text-align: center; }
+        .stat-value { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--accent); display: block; }
+        .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-top: 4px; }
+
+        /* SECTIONS */
+        section { padding: 48px 0; }
+        h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+        .section-sub { color: var(--text-dim); font-size: 15px; margin-bottom: 32px; max-width: 500px; }
+
+        /* SELF-IMPROVING SECTION */
+        .loop { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 48px; }
+        .loop h3 { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 20px; }
+        .loop-steps { display: grid; gap: 16px; }
+        .loop-step { display: flex; gap: 14px; align-items: start; }
+        .loop-num { font-family: var(--mono); font-size: 13px; color: var(--accent); background: var(--accent-dim); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+        .loop-step p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+        .loop-step strong { color: var(--text); }
+
+        /* OUTCOMES */
+        .outcomes { display: grid; gap: 14px; margin-bottom: 48px; }
+        .outcome { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
+        .outcome:hover { border-color: var(--border2); }
+        .outcome-icon { width: 40px; height: 40px; background: var(--accent-dim); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .outcome h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .outcome p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+        /* COST COMPARISON */
+        .comparison { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 64px; }
+        .comparison h3 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 20px; }
+        .cost-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .cost-row:last-child { border-bottom: none; }
+        .cost-old { font-family: var(--mono); color: var(--red); text-decoration: line-through; opacity: 0.6; font-size: 13px; }
+        .cost-new { font-family: var(--mono); color: var(--accent); font-weight: 700; font-size: 14px; }
+
+        /* EMAIL CAPTURE */
+        .free-kit { background: linear-gradient(135deg, #0a1a10 0%, var(--surface) 100%); border: 1px solid #00ff8822; border-radius: 14px; padding: 40px 28px; text-align: center; margin-bottom: 64px; }
+        .free-kit h2 { color: var(--accent); font-size: 24px; }
+        .email-form { display: flex; gap: 8px; max-width: 420px; margin: 28px auto 0; }
+        .email-form input { flex: 1; padding: 13px 16px; background: #0d0d0d; border: 1px solid #333; border-radius: 8px; color: var(--text); font-family: var(--sans); font-size: 14px; outline: none; }
+        .email-form input:focus { border-color: var(--accent); }
+        .email-form input::placeholder { color: var(--text-muted); }
+        .email-form button { padding: 13px 24px; background: var(--accent); color: #000; border: none; border-radius: 8px; font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .email-form button:hover { opacity: 0.85; }
+        .free-kit .note { color: var(--text-muted); font-size: 11px; margin-top: 14px; }
+
+        /* CLOUD WAITLIST */
+        .cloud { background: var(--surface2); border: 1px solid var(--blue); border-radius: 14px; padding: 40px 28px; text-align: center; margin-bottom: 64px; position: relative; overflow: hidden; }
+        .cloud::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, #4488ff11 0%, transparent 70%); pointer-events: none; }
+        .cloud-badge { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); border: 1px solid #4488ff33; padding: 5px 14px; border-radius: 100px; margin-bottom: 20px; }
+        .cloud h2 { color: var(--blue); font-size: 24px; margin-bottom: 8px; }
+        .cloud p { color: var(--text-dim); font-size: 15px; max-width: 440px; margin: 0 auto 24px; line-height: 1.6; }
+        .cloud-features { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+        .cloud-feature { font-size: 13px; color: var(--text-dim); }
+        .cloud-feature::before { content: '→ '; color: var(--blue); }
+        .cloud .email-form button { background: var(--blue); }
+        .cloud .email-form input:focus { border-color: var(--blue); }
+        .cloud-price { font-family: var(--mono); font-size: 14px; color: var(--text-muted); margin-top: 16px; }
+
+        /* PRODUCTS */
+        .products { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 64px; }
+        .product { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px 22px; }
+        .product:hover { border-color: var(--border2); }
+        .product.featured { border-color: var(--accent); }
+        .product.featured::after { content: 'BEST VALUE'; position: absolute; top: -10px; right: 18px; background: var(--accent); color: #000; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 10px; border-radius: 4px; }
+        .product { position: relative; }
+        .product-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .product-price { font-family: var(--mono); font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+        .product-price span { font-size: 13px; color: var(--text-dim); font-weight: 400; }
+        .product-note { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+        .product-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 18px; min-height: 60px; }
+        .product-features { list-style: none; margin-bottom: 22px; }
+        .product-features li { font-size: 12px; color: var(--text-dim); padding: 5px 0; border-bottom: 1px solid var(--border); }
+        .product-features li::before { content: '→ '; color: var(--accent); }
+        .product-features li:last-child { border-bottom: none; }
+        .btn { display: block; width: 100%; padding: 13px; text-align: center; text-decoration: none; border-radius: 8px; font-family: var(--sans); font-size: 14px; font-weight: 600; }
+        .btn:hover { opacity: 0.85; }
+        .btn-primary { background: var(--accent); color: #000; }
+        .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+        .guarantee { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 16px; }
+
+        /* DFY */
+        .dfy { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 64px; }
+        .dfy p { color: var(--text-dim); font-size: 14px; margin-bottom: 16px; }
+        .dfy a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 32px 0 48px; color: var(--text-muted); font-size: 12px; }
+        footer a { color: var(--text-dim); text-decoration: none; }
+        footer a:hover { color: var(--text); }
+
+        @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } .products { grid-template-columns: 1fr; } .email-form { flex-direction: column; } .cloud-features { flex-direction: column; gap: 8px; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .hero, .stats, section, .free-kit, .cloud, .products, .dfy { animation: fadeUp 0.5s ease-out both; }
+    </style>
 </head>
 <body>
 <div class="container">
 
-<div class="live-bar"><div class="inner">
-  <div class="item"><div class="dot"></div><span class="val">System live</span></div>
-  <div class="item"><span class="lbl">Uptime:</span><span class="val">5+ days</span></div>
-  <div class="item"><span class="lbl">LLM cost/day:</span><span class="val">$0.24</span></div>
-  <div class="item"><span class="lbl">Auto-tweets:</span><span class="val">30+</span></div>
-</div></div>
+    <nav>
+        <div class="logo">APEX</div>
+        <div class="nav-links">
+            <a href="#free">Free Kit</a>
+            <a href="#cloud">Cloud</a>
+            <a href="#products">Self-Deploy</a>
+            <a href="https://x.com/IntoApex">@IntoApex</a>
+        </div>
+    </nav>
 
-<section class="hero" style="border:none">
-  <div class="tag">built on OpenClaw · deploy in 30 min · $15-40/mo to run</div>
-  <h1>Your AI agent should<br><span>run your business.</span></h1>
-  <p class="sub">APEX is a pre-configured autonomous system. It posts content, tracks costs, monitors competitors, drafts outreach, and reports daily P&L — while you sleep. Built from 5 days of real production operation.</p>
-  <div class="cta-row">
-    <a href="https://buy.stripe.com/9B6cN4fTd1MJ4flbyZ5Vu01" class="btn btn-primary" target="_blank">Get APEX Pro — $99</a>
-    <a href="https://github.com/intoapex/apex-lite" class="btn btn-secondary" target="_blank">Free cost optimization kit</a>
-  </div>
-</section>
-
-<section class="proof">
-  <h2>Real numbers from a real deployment</h2>
-  <p class="sub">This isn't a demo. APEX runs on a VPS since March 28, 2026. Here's the actual data.</p>
-  <div class="proof-grid">
-    <div class="proof-card"><div class="metric bad">$7.60/day</div><div class="lbl">LLM cost before optimization</div><div class="context">Default OpenClaw config, Sonnet for everything</div></div>
-    <div class="proof-card"><div class="metric">$0.24/day</div><div class="lbl">LLM cost after APEX optimization</div><div class="context">Same functionality. 97% reduction.</div></div>
-    <div class="proof-card"><div class="metric">2,335 B</div><div class="lbl">Bootstrap size (down from 12,000)</div><div class="context">80% fewer tokens loaded per API call</div></div>
-    <div class="proof-card"><div class="metric">8 jobs</div><div class="lbl">Cron jobs running daily, no human input</div><div class="context">Research, engagement, posting, P&L, Reddit</div></div>
-  </div>
-  <div class="timeline">
-    <div class="entry"><div class="day">Day 1</div><div class="what">VPS deployed, OpenClaw installed, first autonomous tweet. Cost: $0.80 for 2 replies — too high.</div></div>
-    <div class="entry"><div class="day">Day 2</div><div class="what">Memory architecture rebuilt. Bootstrap trimmed 80%. Semantic search enabled with Gemini embeddings.</div></div>
-    <div class="entry"><div class="day">Day 3</div><div class="what">Cost dropped to $0.24/day. Agent discovered X API cold-reply limitation and adapted strategy on its own.</div></div>
-    <div class="entry"><div class="day">Day 4</div><div class="what">Quote-tweet strategy unlocked. X Premium activated. Agent posting hot takes and engaging conversations.</div></div>
-    <div class="entry"><div class="day">Day 5</div><div class="what">Products packaged from battle-tested configs. 8 autonomous jobs producing 10+ tweets daily.</div></div>
-  </div>
-</section>
-
-<section>
-  <h2>The OpenClaw cost problem is real</h2>
-  <div class="stat-grid">
-    <div class="stat"><div class="num">$3,600</div><div class="label">One user's monthly API bill with default settings</div></div>
-    <div class="stat"><div class="num">$200</div><div class="label">Burned overnight from a single infinite loop</div></div>
-    <div class="stat"><div class="num">0</div><div class="label">Native spending caps in OpenClaw</div></div>
-    <div class="stat"><div class="num">80%</div><div class="label">Of support requests are the same 20 fixable problems</div></div>
-  </div>
-  <p style="color:var(--muted);font-size:15px">OpenClaw is powerful. But it defaults to expensive models for everything, has no budget limits, and most people don't know what to automate. APEX solves all three.</p>
-</section>
-
-<section>
-  <h2>7 modules that work out of the box</h2>
-  <p class="sub">Each module is pre-configured with its own spending cap. Pick which ones to activate.</p>
-  <div class="mod-grid">
-    <div class="mod"><div class="icon">📢</div><h3>Social media autopilot</h3><p>X posting, quote-tweet engagement, mention replies, build-in-public logging. Anti-spam safeguards built in.</p><div class="cost">$3-8/mo</div></div>
-    <div class="mod"><div class="icon">📊</div><h3>Business intelligence</h3><p>Daily P&L, per-module cost tracking, budget alerts to Discord. Knows if you're actually profitable.</p><div class="cost">$1-3/mo</div></div>
-    <div class="mod"><div class="icon">💬</div><h3>Support triage</h3><p>Classify requests, auto-respond to FAQs, escalate complex issues. Runs on Haiku.</p><div class="cost">$1-3/mo</div></div>
-    <div class="mod"><div class="icon">🔍</div><h3>Reddit intelligence</h3><p>Monitor subreddits for people with your problem. Draft genuine replies. You approve before posting.</p><div class="cost">$2-5/mo</div></div>
-    <div class="mod"><div class="icon">📨</div><h3>Outbound prospecting</h3><p>Find prospects on X/Reddit. Draft personalized outreach. Track pipeline to conversion.</p><div class="cost">$3-6/mo</div></div>
-    <div class="mod"><div class="icon">✍️</div><h3>Content pipeline</h3><p>Blog posts, X threads, newsletters from daily learnings. SEO-optimized, cross-platform.</p><div class="cost">$5-12/mo</div></div>
-    <div class="mod"><div class="icon">🔭</div><h3>Competitor watch</h3><p>Track pricing, new products, market shifts. Weekly intelligence digest with opportunities flagged.</p><div class="cost">$2-4/mo</div></div>
-  </div>
-</section>
-
-<section>
-  <h2>Cost control that actually works</h2>
-  <div class="cost-compare">
-    <div class="cost-card bad"><div class="title">Unoptimized OpenClaw</div><div class="price">$50-200+</div><div class="detail">Default models for everything. No caps. Token bloat. Heartbeats on Opus.</div></div>
-    <div class="cost-card good"><div class="title">With APEX</div><div class="price">$15-40</div><div class="detail">Intelligent routing. Per-module caps. Light-context crons. Heartbeats on Haiku.</div></div>
-  </div>
-  <div class="layers">
-    <div class="layer"><div><div class="name">Model routing</div><div class="desc">Haiku ($0.80/M) for simple tasks. Sonnet ($3/M) for standard. Opus only when needed.</div></div><div class="save">60-80% saved</div></div>
-    <div class="layer"><div><div class="name">Per-module spending caps</div><div class="desc">Each module has daily + monthly budget in cost-control.json. Pauses at cap.</div></div><div class="save">no $200 bills</div></div>
-    <div class="layer"><div><div class="name">Bootstrap optimization</div><div class="desc">Default AGENTS.md = 8,000 bytes per call. APEX ships at 2,335 bytes total.</div></div><div class="save">2,500 tokens/call</div></div>
-    <div class="layer"><div><div class="name">Light-context crons</div><div class="desc">Every cron runs with --light-context and --thinking off flags.</div></div><div class="save">30-50% per job</div></div>
-    <div class="layer"><div><div class="name">Memory search</div><div class="desc">Agent retrieves relevant context via embeddings instead of loading all files.</div></div><div class="save">scales free</div></div>
-  </div>
-</section>
-
-<section>
-  <h2>What's in the package</h2>
-  <div class="file-tree">
-    <span class="dir">SOUL.md.template</span> <span class="desc">— Agent identity template (customize for your business)</span><br>
-    <span class="dir">AGENTS.md</span> <span class="desc">— Workspace rules, battle-tested at 840 bytes</span><br>
-    <span class="dir">USER.md.template</span> <span class="desc">— Operator preferences (timezone, budget, trust)</span><br>
-    <span class="dir">MEMORY.md.template</span> <span class="desc">— Long-term memory seed with pre-loaded learnings</span><br>
-    <span class="dir">config/cost-control.json</span> <span class="desc">— Per-module budget caps + circuit breakers</span><br>
-    <span class="dir">skills/social-media/</span> <span class="desc">— X autopilot with quote-tweet strategy + anti-spam</span><br>
-    <span class="dir">skills/business-intel/</span> <span class="desc">— Daily P&L tracking and cost monitoring</span><br>
-    <span class="dir">skills/reddit-intel/</span> <span class="desc">— Subreddit monitoring + draft replies (Pro)</span><br>
-    <span class="dir">skills/outbound/</span> <span class="desc">— Prospect finding + outreach drafts (Pro)</span><br>
-    <span class="dir">skills/content-pipeline/</span> <span class="desc">— Blog, thread, newsletter generation (Pro)</span><br>
-    <span class="dir">skills/competitor-watch/</span> <span class="desc">— Weekly competitive intelligence (Pro)</span><br>
-    <span class="dir">skills/support-triage/</span> <span class="desc">— Customer support classification (Pro)</span><br>
-    <span class="dir">docs/DEPLOYMENT-GUIDE.md</span> <span class="desc">— 12,000-word guide, every command tested on live VPS</span>
-  </div>
-</section>
-
-<section>
-  <h2>Deploy in 30 minutes</h2>
-  <p class="sub">Tested on Ubuntu 24.04, DigitalOcean and Hetzner. The guide covers every step.</p>
-  <div class="terminal">
-    <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="title">terminal — apex deployment</div></div>
-    <pre><span class="comment"># Install OpenClaw + copy APEX configs</span>
-<span class="cmd">sudo npm install -g</span> openclaw && <span class="cmd">openclaw</span> onboard
-<span class="cmd">cp</span> SOUL.md.template ~/.openclaw/workspace/SOUL.md
-<span class="cmd">cp -r</span> skills/* ~/.openclaw/skills/
-<span class="cmd">cp -r</span> config/* ~/.openclaw/workspace/config/
-
-<span class="comment"># Verify bootstrap is optimized (target: under 3K bytes)</span>
-<span class="cmd">wc -c</span> ~/.openclaw/workspace/*.md
-<span class="out"> 2070 total    ← 80% smaller than default ✓</span>
-
-<span class="comment"># Enable memory search (free Gemini embeddings)</span>
-<span class="cmd">openclaw memory</span> index --force
-<span class="out"> 11 files · 18 chunks · gemini ready ✓</span>
-
-<span class="comment"># Create autonomous cron jobs</span>
-<span class="cmd">openclaw cron add</span> --name "daily-post" \
-  --light-context --thinking off --no-deliver
-<span class="out"> ✓ System running. Modules fire on schedule.</span></pre>
-  </div>
-</section>
-
-<section class="pricing" id="pricing">
-  <h2>Pricing</h2>
-  <p class="sub">One-time purchase. Free updates. Every config is from our live production system.</p>
-  <div class="price-grid">
-    <div class="price-card">
-      <div class="tier">Core</div>
-      <div class="amount">$49 <small>once</small></div>
-      <ul>
-        <li>Social media autopilot</li>
-        <li>Business intelligence / P&L</li>
-        <li>Cost control system</li>
-        <li>Memory architecture + search</li>
-        <li>12,000-word deployment guide</li>
-        <li>Cron job templates</li>
-      </ul>
-      <a href="https://buy.stripe.com/cNi8wO6iD62Z139byZ5Vu00" class="btn btn-secondary" target="_blank">Get Core — $49</a>
+    <div class="hero">
+        <div class="badge">Self-improving · 14 agents · Under $2/day</div>
+        <h1>AI agents that get<br><span class="accent">smarter every week</span></h1>
+        <p class="subtitle">APEX runs autonomous AI operations on OpenClaw — social media, engagement, prospecting, research — and improves its own strategy based on real performance data.</p>
     </div>
-    <div class="price-card featured">
-      <div class="tier">Pro</div>
-      <div class="amount">$99 <small>once</small></div>
-      <ul>
-        <li>Everything in Core</li>
-        <li>Reddit intelligence + drafts</li>
-        <li>Outbound prospecting engine</li>
-        <li>Content pipeline</li>
-        <li>Competitor watch</li>
-        <li>Support triage</li>
-        <li>All 7 modules</li>
-      </ul>
-      <a href="https://buy.stripe.com/9B6cN4fTd1MJ4flbyZ5Vu01" class="btn btn-primary" target="_blank">Get Pro — $99</a>
+
+    <div class="stats">
+        <div class="stat"><span class="stat-value">$0.80</span><span class="stat-label">LLM / Day</span></div>
+        <div class="stat"><span class="stat-value">14</span><span class="stat-label">Agents</span></div>
+        <div class="stat"><span class="stat-value">97%</span><span class="stat-label">Cost Cut</span></div>
+        <div class="stat"><span class="stat-value">24/7</span><span class="stat-label">Autonomous</span></div>
     </div>
-    <div class="price-card">
-      <div class="tier">Done for you</div>
-      <div class="amount">$500+ <small>custom</small></div>
-      <ul>
-        <li>Everything in Pro</li>
-        <li>Deployed on your VPS</li>
-        <li>Custom configuration</li>
-        <li>Custom SOUL.md</li>
-        <li>2 weeks supervised</li>
-        <li>Direct operator access</li>
-      </ul>
-      <a href="https://x.com/IntoApex" class="btn btn-secondary" target="_blank">DM @IntoApex</a>
+
+    <!-- SELF-IMPROVEMENT LOOP -->
+    <section>
+        <h2>The system that improves itself</h2>
+        <p class="section-sub">Most AI tools post and forget. APEX measures, learns, and adapts — automatically.</p>
+        <div class="loop">
+            <h3>Weekly learning loop</h3>
+            <div class="loop-steps">
+                <div class="loop-step"><div class="loop-num">1</div><p><strong>Agents act</strong> — 14 cron jobs post content, engage accounts, track costs, find prospects throughout the day</p></div>
+                <div class="loop-step"><div class="loop-num">2</div><p><strong>Tracker measures</strong> — engagement tracker checks what actually worked: which tweets, which formats, which accounts responded</p></div>
+                <div class="loop-step"><div class="loop-num">3</div><p><strong>Strategy adapts</strong> — weekly analyzer reads all performance data and rewrites the content playbook with specific adjustments</p></div>
+                <div class="loop-step"><div class="loop-num">4</div><p><strong>Agents read updated strategy</strong> — next week's content is informed by last week's data. Repeat. Compound.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT IT DOES -->
+    <section>
+        <h2>What APEX runs for you</h2>
+        <div class="outcomes">
+            <div class="outcome"><div class="outcome-icon">⚡</div><div><h3>Autonomous content + engagement</h3><p>Strategy-aware tweets, quote-tweets, reply drafts delivered to your Discord. The system reads what worked before composing.</p></div></div>
+            <div class="outcome"><div class="outcome-icon">🎯</div><div><h3>Outbound prospecting</h3><p>Finds people struggling with OpenClaw setup or AI agent costs. Identifies qualified prospects and suggests engagement approaches.</p></div></div>
+            <div class="outcome"><div class="outcome-icon">📊</div><div><h3>Cost + revenue tracking</h3><p>Daily P&L, budget caps per module, circuit breakers. Tracks every dollar in and out. Never get a surprise API bill.</p></div></div>
+            <div class="outcome"><div class="outcome-icon">🧠</div><div><h3>5-layer memory architecture</h3><p>Bootstrap → daily logs → curated insights → semantic search → hot insights. The system remembers what works and forgets what doesn't.</p></div></div>
+        </div>
+    </section>
+
+    <!-- COST COMPARISON -->
+    <div class="comparison">
+        <h3>What this replaces</h3>
+        <div class="cost-row"><span>Social media manager</span><span class="cost-old">$3,000/mo</span><span class="cost-new">$0.50/day</span></div>
+        <div class="cost-row"><span>Analytics + scheduling tools</span><span class="cost-old">$200/mo</span><span class="cost-new">$0.03/day</span></div>
+        <div class="cost-row"><span>Content creation</span><span class="cost-old">$1,500/mo</span><span class="cost-new">$0.08/day</span></div>
+        <div class="cost-row"><span>VPS + infrastructure</span><span class="cost-old">—</span><span class="cost-new">$0.80/day</span></div>
+        <div class="cost-row" style="border-top:1px solid var(--accent);padding-top:14px;margin-top:6px;"><span style="font-weight:700">Total</span><span class="cost-old">$4,700+/mo</span><span class="cost-new" style="font-size:16px">~$2/day</span></div>
     </div>
-  </div>
-</section>
 
-<section style="border:none">
-  <h2 style="text-align:center">Questions</h2>
-  <div class="faq-item"><div class="faq-q">What do I need to run this?</div><div class="faq-a">A VPS ($4-48/month depending on provider), an Anthropic API key, and 30 minutes. The deployment guide covers every step. Works on Ubuntu 24.04, tested on DigitalOcean and Hetzner.</div></div>
-  <div class="faq-item"><div class="faq-q">How much will API costs be?</div><div class="faq-a">With APEX's routing and caps: $7-15/month for all modules. Without optimization, the same workload costs $50-200+. Per-module budget caps prevent surprises — when a module hits its cap, it pauses and alerts you.</div></div>
-  <div class="faq-item"><div class="faq-q">Can't I just write these SKILL.md files myself?</div><div class="faq-a">The individual skills, sure. The integrated system with model routing, per-module spending caps, bootstrap trim (2,335 bytes vs 12,000 default), memory architecture with semantic search, anti-spam safeguards, compaction with memory flush, and cron flags that cut costs 30-50% — that took us 5 days of trial, error, and optimization. You're buying the lessons, not just the files.</div></div>
-  <div class="faq-item"><div class="faq-q">Does social media work without X Premium?</div><div class="faq-a">Yes, but with 280-char tweets and lower visibility. X Premium ($8/month) gives 4x visibility and 4,000-char tweets. The module includes the Premium patch. Cold replies are blocked by the X API regardless — the module uses quote tweets as a workaround we discovered on Day 3.</div></div>
-  <div class="faq-item"><div class="faq-q">What if I get stuck?</div><div class="faq-a">The deployment guide covers every error we hit: 403 cold replies, dollar sign interpolation, memory search unavailable, credit errors, cron timeouts. For anything else, DM <a href="https://x.com/IntoApex">@IntoApex</a> — we respond to every message.</div></div>
-  <div class="faq-item"><div class="faq-q">Can I see the system running?</div><div class="faq-a">Follow <a href="https://x.com/IntoApex">@IntoApex on X</a>. Every tweet and quote-tweet you see is produced by APEX's social media module running autonomously. The system markets itself.</div></div>
-</section>
+    <!-- FREE KIT -->
+    <div class="free-kit" id="free">
+        <div class="badge">Free — no catch</div>
+        <h2>Get the APEX Lite Cost Kit</h2>
+        <p class="section-sub" style="margin:8px auto 0;max-width:400px;">The exact cost-control configs and bootstrap optimization that cut LLM spend from $7.60 to $0.24/day.</p>
+        <form class="email-form" action="https://buttondown.com/api/emails/embed-subscribe/intoapex" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.com/intoapex','popupwindow')">
+            <input type="email" name="email" placeholder="you@example.com" required>
+            <button type="submit">Get it free</button>
+        </form>
+        <p class="note">Join the build-in-public journey. Weekly data + insights. Unsubscribe anytime.</p>
+    </div>
 
-<div class="footer">
-  <p>APEX — autonomous AI operations built on OpenClaw.<br>Running continuously since March 28, 2026. Every config is from our live deployment.<br><br>
-  <a href="https://x.com/IntoApex">@IntoApex on X</a> · <a href="https://github.com/intoapex/apex-lite">Free templates on GitHub</a></p>
-</div>
+    <!-- APEX CLOUD WAITLIST -->
+    <div class="cloud" id="cloud">
+        <div class="cloud-badge">Coming soon</div>
+        <h2>APEX Cloud</h2>
+        <p>We run your agents for you. No VPS, no config, no maintenance. Self-improving AI operations as a service.</p>
+        <div class="cloud-features">
+            <span class="cloud-feature">One-click deploy</span>
+            <span class="cloud-feature">Dashboard</span>
+            <span class="cloud-feature">Auto-improving</span>
+            <span class="cloud-feature">Cost tracking</span>
+        </div>
+        <form class="email-form" action="https://buttondown.com/api/emails/embed-subscribe/intoapex" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.com/intoapex','popupwindow')">
+            <input type="hidden" name="tag" value="cloud-waitlist">
+            <input type="email" name="email" placeholder="you@example.com" required>
+            <button type="submit">Join the waitlist</button>
+        </form>
+        <p class="cloud-price">Starting at $49/month · Launching soon</p>
+    </div>
 
+    <!-- SELF-DEPLOY PRODUCTS -->
+    <section id="products">
+        <h2>Self-deploy option</h2>
+        <p class="section-sub">For technical users who want to run APEX on their own VPS. Full system, all configs, deployment guide.</p>
+    </section>
+
+    <div class="products">
+        <div class="product">
+            <div class="product-name">APEX Core</div>
+            <div class="product-price">$49 <span>one-time</span></div>
+            <p class="product-note">Self-deploy · Your VPS</p>
+            <p class="product-desc">Complete 12-agent autonomous system with self-improving feedback loop. Social media, business intel, cost controls.</p>
+            <ul class="product-features">
+                <li>12 cron jobs (ready-to-paste commands)</li>
+                <li>Self-improving feedback loop configs</li>
+                <li>Strategy-aware content generation</li>
+                <li>Cost controls with budget caps + circuit breakers</li>
+                <li>2 skills (social-media v4, business-intel v2)</li>
+                <li>Quick-start deployment guide</li>
+            </ul>
+            <a href="https://buy.stripe.com/cNi8wO6iD62Z139byZ5Vu00" class="btn btn-secondary">Get Core</a>
+        </div>
+        <div class="product featured">
+            <div class="product-name">APEX Pro</div>
+            <div class="product-price">$99 <span>one-time</span></div>
+            <p class="product-note">Self-deploy · Your VPS</p>
+            <p class="product-desc">14-agent system with prospecting, competitive intel, Reddit monitoring, and data threads. The full operational stack.</p>
+            <ul class="product-features">
+                <li>Everything in Core (12 agents)</li>
+                <li>Outbound prospecting skill + cron job</li>
+                <li>Reddit intelligence skill</li>
+                <li>Competitor monitoring skill</li>
+                <li>Thursday data thread (14 agents total)</li>
+                <li>5 skills total</li>
+            </ul>
+            <a href="https://buy.stripe.com/9B6cN4fTd1MJ4flbyZ5Vu01" class="btn btn-primary">Get Pro</a>
+        </div>
+    </div>
+    <p class="guarantee">30-day money-back guarantee. If APEX doesn't work for you, DM @IntoApex for a full refund.</p>
+
+    <!-- DFY -->
+    <div class="dfy">
+        <h2>Want it done for you?</h2>
+        <p>We deploy APEX on your VPS, configure it for your use case, and hand you the keys. Starting at $500.</p>
+        <a href="https://x.com/IntoApex">DM @IntoApex on X →</a>
+    </div>
+
+    <footer>
+        <p>APEX Autonomous AI Operations · Built on <a href="https://openclaw.ai">OpenClaw</a></p>
+        <p style="margin-top:6px"><a href="https://x.com/IntoApex">X</a> · <a href="https://github.com/intoApex/apex-lite">GitHub</a> · <a href="https://dev.to/intoapex">Dev.to</a></p>
+    </footer>
 </div>
 </body>
 </html>
